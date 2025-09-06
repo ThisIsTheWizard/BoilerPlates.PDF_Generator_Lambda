@@ -45,7 +45,7 @@ jobs:
       - name: Deploy project
         run: |
           sam deploy \
-            --stack-name wizard-excel-service \
+            --stack-name wizard-pdf-generator-service \
             --capabilities CAPABILITY_IAM \
             --no-confirm-changeset \
             --no-fail-on-empty-changeset \
