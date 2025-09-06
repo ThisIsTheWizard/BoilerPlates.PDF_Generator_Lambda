@@ -5,8 +5,8 @@ Description: AWS SAM template for wizard-pdf-generator-service
 Globals:
   Function:
     Runtime: nodejs22.x
-    Timeout: 300
-    MemorySize: 1024
+    Timeout: 60
+    MemorySize: 256
     Tracing: Active
     Environment:
       Variables:
@@ -31,7 +31,7 @@ Resources:
       Description: Lambda entrypoint for wizard PDF generator service.
       FunctionName: 'wizard-pdf-generator'
       Handler: index.handler
-      Timeout: 300
+      Timeout: 60
       Events:
         PDFGeneratorQueueEvent:
           Type: SQS
