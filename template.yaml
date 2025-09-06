@@ -29,7 +29,7 @@ Resources:
     Properties:
       CodeUri: build
       Description: Lambda entrypoint for wizard PDF generator service.
-      FunctionName: 'wizard-pdf-generator'
+      FunctionName: 'wizard-pdf-generator-service'
       Handler: index.handler
       Timeout: 60
       Events:
