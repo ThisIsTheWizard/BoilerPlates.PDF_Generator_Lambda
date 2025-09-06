@@ -1,0 +1,56 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: AWS SAM template for wizard-pdf-generator-service
+
+Globals:
+  Function:
+    Runtime: nodejs22.x
+    Timeout: 300
+    MemorySize: 1024
+    Tracing: Active
+    Environment:
+      Variables:
+        AWS_S3_BUCKET: !Ref Bucket
+
+Parameters:
+  Bucket:
+    Description: The name of the S3 bucket where the PDF file will be stored.
+    Type: String
+
+Resources:
+  PDFGeneratorQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: 'wizard-pdf-generator-queue'
+      VisibilityTimeout: 60
+
+  PDFGeneratorService:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: build
+      Description: Lambda entrypoint for wizard PDF generator service.
+      FunctionName: 'wizard-pdf-generator'
+      Handler: index.handler
+      Timeout: 300
+      Events:
+        PDFGeneratorQueueEvent:
+          Type: SQS
+          Properties:
+            Queue: !GetAtt PDFGeneratorQueue.Arn
+            BatchSize: 1
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action:
+                - s3:PutObject
+              Resource:
+                - !Sub 'arn:aws:s3:::${Bucket}/*'
+
+Outputs:
+  PDFGeneratorQueue:
+    Description: 'The ARN of the PDF generator SQS queue.'
+    Value: !GetAtt PDFGeneratorQueue.Arn
+
+  PDFGeneratorService:
+    Description: 'The ARN of the Lambda function responsible for wizard PDF generator service.'
+    Value: !GetAtt PDFGeneratorService.Arn
