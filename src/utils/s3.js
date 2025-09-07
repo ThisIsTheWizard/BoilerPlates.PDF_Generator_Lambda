@@ -19,7 +19,7 @@ export const uploadFileToS3 = async (Body, Key) => {
 
     return { data, success: true }
   } catch (err) {
-    console.error('Error happened in uploadFileToS3:', err)
+    console.error('❌ [PDF-GENERATOR] Error happened in uploadFileToS3 💥', err)
     throw err
   }
 }

@@ -58,7 +58,7 @@ Install dependencies:
 npm install
 ```
 
-Run the service using using AWS SAM CLI:
+Run the service using AWS SAM CLI:
 
 ```bash
 npm run dev
@@ -71,20 +71,22 @@ npm run dev
 For better performance, you can use a Lambda layer for Chromium:
 
 1. **Create Puppeteer Layer:**
+
    ```bash
    # Create layer directory
    mkdir puppeteer-layer
    cd puppeteer-layer
-   
+
    # Install chromium and puppeteer-core in layer structure
    npm init -y
    npm install @sparticuz/chromium puppeteer-core
-   
+
    # Create layer zip
    zip -r puppeteer-layer.zip node_modules/
    ```
 
 2. **Deploy Layer:**
+
    ```bash
    aws lambda publish-layer-version \
      --layer-name puppeteer \
